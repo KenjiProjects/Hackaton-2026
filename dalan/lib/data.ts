@@ -27,8 +27,13 @@ export const fareCurrency = "PHP";
 export const fareRules = {
   baseFare: 15,
   includedDistanceKm: 3,
-  additionalFarePerStartedKm: 0.5,
+  additionalFarePerStartedKm: 5,
 };
+export const fareDisclaimer =
+  "This is an estimated fare. The fare may be adjusted or increased for special requests, and the driver may request double fare. Confirm the final fare with the driver before starting the trip.";
 
 // OSRM provides driving-road distances; replace this URL to use another router.
 export const routingServiceUrl = "https://router.project-osrm.org";
+// Nominatim resolves the nearest named OSM place or street for a map tap.
+export const reverseGeocodingServiceUrl =
+  "https://nominatim.openstreetmap.org/reverse";
