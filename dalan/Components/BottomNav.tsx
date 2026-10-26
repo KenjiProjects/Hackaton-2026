@@ -62,7 +62,7 @@ export default function BottomNav() {
                 aria-current={isActive ? "page" : undefined}
                 className={`flex h-full flex-col items-center justify-center gap-1 text-xs font-medium transition-colors ${
                   isActive
-                    ? "text-teal-700 dark:text-teal-300"
+                    ? "text-orange-700 dark:text-orange-300"
                     : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 }`}
               >

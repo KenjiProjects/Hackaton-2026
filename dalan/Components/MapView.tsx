@@ -163,7 +163,7 @@ export default function MapView({
               radius: 9,
               color: "#ffffff",
               weight: 3,
-              fillColor: "#f59e0b",
+              fillColor: "#FAAC2F",
               fillOpacity: 1,
             },
           ).addTo(selectionLayer);

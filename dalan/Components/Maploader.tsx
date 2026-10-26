@@ -44,8 +44,8 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
   const tab = (active: boolean) =>
     `rounded-full px-4 py-2 text-sm font-medium transition ${
       active
-        ? "bg-teal-700 text-white"
-        : "bg-white text-zinc-700 hover:bg-zinc-100"
+        ? "brand-gradient text-white"
+        : "bg-white text-zinc-700 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
     }`;
 
   return (
@@ -63,7 +63,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
         onStatusChange={setStatus}
       />
 
-      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow-lg">
+      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow-lg dark:bg-zinc-900">
         <Link href="/?mode=terminal" className={tab(mode === "terminal")}>
           Terminals
         </Link>
@@ -75,14 +75,14 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
       <button
         type="button"
         onClick={() => setLocateRequest((request) => request + 1)}
-        className="absolute right-3 top-3 z-[1000] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-800 shadow-lg transition hover:bg-zinc-100"
+        className="absolute right-3 top-3 z-[1000] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-800 shadow-lg transition hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
       >
         My location
       </button>
 
       <aside
         aria-live="polite"
-        className={`absolute bottom-[calc(5rem+env(safe-area-inset-bottom)+1rem)] left-3 right-3 z-[1000] mx-auto max-h-[45dvh] overflow-y-auto rounded-2xl bg-white/95 p-4 shadow-lg backdrop-blur ${
+        className={`absolute bottom-[calc(5rem+env(safe-area-inset-bottom)+1rem)] left-3 right-3 z-[1000] mx-auto max-h-[45dvh] overflow-y-auto rounded-2xl bg-white/95 p-4 text-zinc-900 shadow-lg backdrop-blur dark:bg-zinc-950/95 dark:text-zinc-100 ${
           (mode === "routes" && selectedRoute) ||
           (mode === "terminal" && selectedStop)
             ? "max-w-2xl"
@@ -91,7 +91,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
       >
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+            <p className="text-xs font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-300">
               {selectedStop
                 ? stopTypeLabels[selectedStop.type]
                 : selectedRoute
@@ -100,7 +100,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
                     ? "Transport terminals"
                     : "Jeep routes"}
             </p>
-            <p className="truncate text-sm font-semibold text-zinc-800">
+            <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
               {selectedStop?.name ??
                 selectedRoute?.name ??
                 selectedPlace?.label ??
@@ -111,20 +111,20 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
             type="button"
             aria-expanded={isInfoExpanded}
             onClick={() => setIsInfoExpanded((expanded) => !expanded)}
-            className="shrink-0 rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-200"
+            className="shrink-0 rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
           >
             {isInfoExpanded ? "Show less" : "Show more"}
           </button>
         </div>
 
         {isInfoExpanded && (
-          <div className="mt-3 border-t border-zinc-200 pt-3">
+          <div className="mt-3 border-t border-zinc-200 pt-3 dark:border-zinc-700">
             {selectedStop ? (
               <>
-                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700">
+                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                   {selectedStop.details || "Terminal details will be added later."}
                 </p>
-                <p className="mt-2 text-xs text-zinc-500">
+                <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
                   {selectedStop.lat.toFixed(5)}, {selectedStop.lng.toFixed(5)}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -136,8 +136,8 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
                       onClick={() => toggleStop(stop.id)}
                       className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
                         stop.id === selectedStop.id
-                          ? "bg-zinc-100 text-zinc-900"
-                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100"
+                          ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                       }`}
                     >
                       <span
@@ -152,7 +152,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
               </>
             ) : selectedRoute ? (
               <>
-                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700">
+                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                   {selectedRoute.details || "Route details will be added later."}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -164,8 +164,8 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
                       onClick={() => toggleRoute(route.id)}
                       className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
                         route.id === selectedRoute.id
-                          ? "bg-zinc-100 text-zinc-900"
-                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100"
+                          ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                       }`}
                     >
                       <span
@@ -182,13 +182,13 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
               <>
                 {selectedPlace && (
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="text-xs text-zinc-500">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
                       {selectedPlace.latitude.toFixed(5)},{" "}
                       {selectedPlace.longitude.toFixed(5)}
                     </span>
                     <Link
                       href="/fare-calculator"
-                      className="shrink-0 rounded-lg bg-teal-700 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-800"
+                      className="brand-gradient shrink-0 rounded-lg px-3 py-2 text-xs font-semibold text-white transition hover:brightness-105"
                     >
                       Calculate fare
                     </Link>
@@ -201,7 +201,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
                       key={stop.id}
                       type="button"
                       onClick={() => toggleStop(stop.id)}
-                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100"
+                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
                     >
                       <span
                         aria-hidden="true"
@@ -217,7 +217,7 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
                       key={route.id}
                       type="button"
                       onClick={() => toggleRoute(route.id)}
-                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100"
+                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
                     >
                       <span
                         aria-hidden="true"

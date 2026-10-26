@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const FEEDBACK_STORAGE_KEY = "dalan-feedback";
 const inputClassName =
-  "mt-2 h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-teal-300";
+  "mt-2 h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-orange-300";
 
 export default function FeedbackPage() {
   const [reportType, setReportType] = useState("driver-violation");
@@ -62,7 +62,7 @@ export default function FeedbackPage() {
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-5 py-8 font-sans dark:bg-black sm:py-12">
       <section className="w-full max-w-xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
         <div className="mb-7">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-700 dark:text-teal-300">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-300">
             Commuter safety
           </p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -171,7 +171,7 @@ export default function FeedbackPage() {
               minLength={10}
               maxLength={1000}
               rows={5}
-              className="mt-2 w-full resize-y rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-teal-300"
+              className="mt-2 w-full resize-y rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-orange-300"
               placeholder="Describe what you saw. Please do not put yourself in danger to collect information."
               value={description}
               onChange={(event) => setDescription(event.target.value)}
@@ -183,7 +183,7 @@ export default function FeedbackPage() {
 
           <button
             type="submit"
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-teal-700 px-5 font-semibold text-white transition hover:bg-teal-800 dark:bg-teal-600 dark:hover:bg-teal-500"
+            className="brand-gradient flex h-12 w-full items-center justify-center rounded-xl px-5 font-semibold text-white transition hover:brightness-105"
           >
             Save incident report
           </button>
@@ -192,7 +192,7 @@ export default function FeedbackPage() {
         {status && (
           <p
             role="status"
-            className="mt-5 rounded-xl bg-teal-50 p-4 text-sm leading-6 text-teal-900 dark:bg-teal-950/50 dark:text-teal-100"
+            className="mt-5 rounded-xl bg-orange-50 p-4 text-sm leading-6 text-orange-900 dark:bg-orange-950/50 dark:text-orange-100"
           >
             {status}
           </p>

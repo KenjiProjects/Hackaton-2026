@@ -22,7 +22,7 @@ export default function Loading() {
       </div>
       <span
         aria-hidden="true"
-        className="mt-2 size-6 animate-spin rounded-full border-2 border-teal-700/20 border-t-teal-700 motion-reduce:animate-none dark:border-teal-300/20 dark:border-t-teal-300"
+        className="mt-2 size-6 animate-spin rounded-full border-2 border-orange-500/20 border-t-orange-600 motion-reduce:animate-none dark:border-orange-300/20 dark:border-t-orange-300"
       />
     </main>
   );

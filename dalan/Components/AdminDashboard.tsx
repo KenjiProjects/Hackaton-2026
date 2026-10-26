@@ -33,7 +33,7 @@ type RouteForm = {
 type FareForm = Omit<FarePlan, "id">;
 
 const fieldClass =
-  "mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20";
+  "mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20";
 const buttonClass =
   "rounded-lg px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50";
 const FEEDBACK_STORAGE_KEY = "dalan-feedback";
@@ -388,7 +388,7 @@ export default function AdminDashboard() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-700 dark:text-teal-300">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-300">
               Dalan administration
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight">Manage transit data</h1>
@@ -412,7 +412,7 @@ export default function AdminDashboard() {
                 setSection(item.id);
                 cancelEdit();
               }}
-              className={`${buttonClass} ${section === item.id ? "bg-teal-700 text-white" : "bg-white text-zinc-700 shadow-sm dark:bg-zinc-900 dark:text-zinc-200"}`}
+              className={`${buttonClass} ${section === item.id ? "brand-gradient text-white" : "bg-white text-zinc-700 shadow-sm dark:bg-zinc-900 dark:text-zinc-200"}`}
             >
               {item.label}
             </button>
@@ -421,7 +421,7 @@ export default function AdminDashboard() {
 
         {(message || storageError) && (
           <p
-            className={`mb-4 rounded-xl p-3 text-sm ${storageError || message.startsWith("Could not") || message.startsWith("Enter") || message.startsWith("At least") ? "bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200" : "bg-teal-50 text-teal-800 dark:bg-teal-950/40 dark:text-teal-200"}`}
+            className={`mb-4 rounded-xl p-3 text-sm ${storageError || message.startsWith("Could not") || message.startsWith("Enter") || message.startsWith("At least") ? "bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200" : "bg-orange-50 text-orange-800 dark:bg-orange-950/40 dark:text-orange-200"}`}
             role="status"
           >
             {storageError || message}
@@ -507,7 +507,7 @@ export default function AdminDashboard() {
                     <p className="text-sm text-zinc-500">{stopTypeLabels[stop.type]} · {stop.lat.toFixed(5)}, {stop.lng.toFixed(5)}</p>
                   </div>
                   <div className="flex gap-2">
-                    <button type="button" onClick={() => editStop(stop)} className={`${buttonClass} bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200`}>Edit</button>
+                    <button type="button" onClick={() => editStop(stop)} className={`${buttonClass} bg-orange-50 text-orange-800 dark:bg-orange-950 dark:text-orange-200`}>Edit</button>
                     <button type="button" onClick={() => deleteStop(stop.id)} className={`${buttonClass} bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200`}>Delete</button>
                   </div>
                 </article>
@@ -522,7 +522,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <button type="button" onClick={() => editRoute(route)} className={`${buttonClass} bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200`}>Edit</button>
+                    <button type="button" onClick={() => editRoute(route)} className={`${buttonClass} bg-orange-50 text-orange-800 dark:bg-orange-950 dark:text-orange-200`}>Edit</button>
                     <button type="button" onClick={() => deleteRoute(route.id)} className={`${buttonClass} bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200`}>Delete</button>
                   </div>
                 </article>
@@ -530,12 +530,12 @@ export default function AdminDashboard() {
               {section === "fares" && transitData.farePlans.map((plan) => (
                 <article key={plan.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
                   <div>
-                    <p className="font-semibold">{plan.name} {plan.id === transitData.activeFarePlanId && <span className="ml-2 rounded-full bg-teal-100 px-2 py-0.5 text-xs text-teal-800 dark:bg-teal-950 dark:text-teal-200">Active</span>}</p>
+                    <p className="font-semibold">{plan.name} {plan.id === transitData.activeFarePlanId && <span className="ml-2 rounded-full bg-orange-100 px-2 py-0.5 text-xs text-orange-800 dark:bg-orange-950 dark:text-orange-200">Active</span>}</p>
                     <p className="text-sm text-zinc-500">{plan.currency} {plan.baseFare} / {plan.includedDistanceKm} km + {plan.currency} {plan.additionalFarePerStartedKm} per started km · up to {plan.estimateRangeMultiplier}× estimate</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {plan.id !== transitData.activeFarePlanId && <button type="button" onClick={() => commit({ ...transitData, activeFarePlanId: plan.id }, "Active fare plan changed.")} className={`${buttonClass} bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100`}>Set active</button>}
-                    <button type="button" onClick={() => editFare(plan)} className={`${buttonClass} bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200`}>Edit</button>
+                    <button type="button" onClick={() => editFare(plan)} className={`${buttonClass} bg-orange-50 text-orange-800 dark:bg-orange-950 dark:text-orange-200`}>Edit</button>
                     <button type="button" onClick={() => deleteFare(plan.id)} className={`${buttonClass} bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200`}>Delete</button>
                   </div>
                 </article>
@@ -599,7 +599,7 @@ export default function AdminDashboard() {
 function FormActions({ editing, onCancel }: { editing: boolean; onCancel: () => void }) {
   return (
     <div className="flex gap-2 pt-1">
-      <button type="submit" className={`${buttonClass} flex-1 bg-teal-700 text-white hover:bg-teal-800`}>
+      <button type="submit" className={`${buttonClass} brand-gradient flex-1 text-white transition hover:brightness-105`}>
         {editing ? "Save changes" : "Add"}
       </button>
       {editing && <button type="button" onClick={onCancel} className={`${buttonClass} bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100`}>Cancel</button>}

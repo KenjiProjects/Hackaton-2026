@@ -115,7 +115,7 @@ export default function RoutePreview({
     const points: L.LatLngExpression[] = [];
 
     if (origin) {
-      addPlaceMarker(layer, origin, "#0f766e", "Start");
+      addPlaceMarker(layer, origin, "#FAAC2F", "Start");
       points.push([origin.latitude, origin.longitude]);
     }
     if (destination) {
@@ -127,7 +127,7 @@ export default function RoutePreview({
         radius: 9,
         color: "#ffffff",
         weight: 2,
-        fillColor: "#f59e0b",
+        fillColor: "#FAAC2F",
         fillOpacity: 1,
       })
         .bindTooltip("Resolving selected street...")
@@ -139,7 +139,7 @@ export default function RoutePreview({
         ([longitude, latitude]): L.LatLngTuple => [latitude, longitude],
       );
       L.polyline(routePoints, {
-        color: "#0f766e",
+        color: "#FA8C2F",
         weight: 5,
         opacity: 0.85,
       }).addTo(layer);

@@ -73,7 +73,7 @@ export default function SettingsPage() {
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-5 py-8 font-sans dark:bg-black sm:py-12">
       <div className="w-full max-w-2xl">
         <header className="mb-7">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-700 dark:text-teal-300">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-300">
             Personalize Dalan
           </p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -101,7 +101,7 @@ export default function SettingsPage() {
                 key={option.value}
                 className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition ${
                   themePreference === option.value
-                    ? "border-teal-700 bg-teal-50 dark:border-teal-300 dark:bg-teal-950/40"
+                    ? "border-orange-600 bg-orange-50 dark:border-orange-300 dark:bg-orange-950/40"
                     : "border-zinc-200 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
                 }`}
               >
@@ -111,7 +111,7 @@ export default function SettingsPage() {
                   value={option.value}
                   checked={themePreference === option.value}
                   onChange={() => updateTheme(option.value)}
-                  className="mt-1 accent-teal-700"
+                  className="mt-1 accent-orange-600"
                 />
                 <span>
                   <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-50">
@@ -128,7 +128,7 @@ export default function SettingsPage() {
           {saved && (
             <p
               role="status"
-              className="mt-4 text-sm text-teal-800 dark:text-teal-200"
+              className="mt-4 text-sm text-orange-800 dark:text-orange-200"
             >
               Appearance preference saved.
             </p>
@@ -160,7 +160,7 @@ export default function SettingsPage() {
                 key={option.value}
                 className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition ${
                   fontSizePreference === option.value
-                    ? "border-teal-700 bg-teal-50 dark:border-teal-300 dark:bg-teal-950/40"
+                    ? "border-orange-600 bg-orange-50 dark:border-orange-300 dark:bg-orange-950/40"
                     : "border-zinc-200 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
                 }`}
               >
@@ -170,7 +170,7 @@ export default function SettingsPage() {
                   value={option.value}
                   checked={fontSizePreference === option.value}
                   onChange={() => updateFontSize(option.value)}
-                  className="mt-1 accent-teal-700"
+                  className="mt-1 accent-orange-600"
                 />
                 <span>
                   <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-50">
@@ -187,7 +187,7 @@ export default function SettingsPage() {
           {saved && (
             <p
               role="status"
-              className="mt-4 text-sm text-teal-800 dark:text-teal-200"
+              className="mt-4 text-sm text-orange-800 dark:text-orange-200"
             >
               Settings saved.
             </p>

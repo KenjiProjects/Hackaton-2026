@@ -207,7 +207,7 @@ export default function FareCalculatorPage() {
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-6 font-sans dark:bg-black sm:px-6 sm:py-10">
       <section className="w-full max-w-3xl rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
         <div className="mb-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-700 dark:text-teal-300">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-300">
             Dalan
           </p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -226,11 +226,11 @@ export default function FareCalculatorPage() {
             onClick={() => chooseTarget("origin")}
             className={`rounded-xl border p-3 text-left transition disabled:opacity-60 ${
               pickTarget === "origin"
-                ? "border-teal-700 bg-teal-50 ring-2 ring-teal-700/20 dark:border-teal-300 dark:bg-teal-950/50"
+                ? "border-orange-600 bg-orange-50 ring-2 ring-orange-500/20 dark:border-orange-300 dark:bg-orange-950/50"
                 : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-950"
             }`}
           >
-            <span className="block text-xs font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">
+            <span className="block text-xs font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-300">
               Starting point
             </span>
             <span className="mt-1 block truncate text-sm text-zinc-800 dark:text-zinc-100">
@@ -286,7 +286,7 @@ export default function FareCalculatorPage() {
               Passengers
             </span>
             <input
-              className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-base text-zinc-900 outline-none transition focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-teal-300 dark:focus:ring-teal-300/20"
+              className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-base text-zinc-900 outline-none transition focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-orange-300 dark:focus:ring-orange-300/20"
               type="number"
               min={1}
               step={1}
@@ -303,7 +303,7 @@ export default function FareCalculatorPage() {
           <button
             type="submit"
             disabled={isCalculating || isResolvingPlace}
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-teal-700 px-5 font-semibold text-white transition hover:bg-teal-800 disabled:cursor-wait disabled:opacity-60 dark:bg-teal-600 dark:hover:bg-teal-500"
+            className="brand-gradient flex h-12 w-full items-center justify-center rounded-xl px-5 font-semibold text-white transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
           >
             {isCalculating ? "Calculating route..." : "Calculate fare"}
           </button>
@@ -321,26 +321,26 @@ export default function FareCalculatorPage() {
         {result && (
           <div
             aria-live="polite"
-            className="mt-6 rounded-2xl bg-teal-50 p-5 dark:bg-teal-950/40"
+            className="mt-6 rounded-2xl bg-orange-50 p-5 dark:bg-orange-950/40"
           >
-            <p className="text-sm font-medium text-teal-900 dark:text-teal-100">
+            <p className="text-sm font-medium text-orange-900 dark:text-orange-100">
               Estimated fare range
             </p>
-            <p className="mt-1 text-3xl font-bold tracking-tight text-teal-900 dark:text-teal-100">
+            <p className="mt-1 text-3xl font-bold tracking-tight text-orange-900 dark:text-orange-100">
               {currencyFormatter.format(result.totalFare)} –{" "}
               {currencyFormatter.format(result.maxTotalFare)}
             </p>
-            <p className="mt-2 text-sm leading-6 text-teal-800 dark:text-teal-200">
+            <p className="mt-2 text-sm leading-6 text-orange-800 dark:text-orange-200">
               {result.distanceKm.toFixed(2)} km by road ·{" "}
               {currencyFormatter.format(result.farePerPassenger)} per
               passenger · {passengerCount} passenger
               {passengerCount === 1 ? "" : "s"}
             </p>
-            <p className="mt-2 text-xs leading-5 text-teal-800 dark:text-teal-200">
+            <p className="mt-2 text-xs leading-5 text-orange-800 dark:text-orange-200">
               Range is from the calculated fare up to{" "}
               {result.estimateRangeMultiplier}× that estimate.
             </p>
-            <p className="mt-3 border-t border-teal-200 pt-3 text-xs leading-5 text-teal-900 dark:border-teal-800 dark:text-teal-100">
+            <p className="mt-3 border-t border-orange-200 pt-3 text-xs leading-5 text-orange-900 dark:border-orange-800 dark:text-orange-100">
               {fareDisclaimer}
             </p>
           </div>
