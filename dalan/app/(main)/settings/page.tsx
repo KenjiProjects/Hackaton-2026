@@ -207,13 +207,13 @@ export default function SettingsPage() {
             About Dalan
           </h2>
           <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-            Dalan helps you explore Naga City transport locations, view routes,
-            and estimate trip fares.
+           Dalan (derived from the local word for road or path)
           </p>
           <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-            Map data © OpenStreetMap contributors. Fare estimates may change
-            for special requests; confirm the fare with the driver before
-            starting your trip.
+            Hyper-local mobile application 
+            designed to eliminate daily commuting friction in Naga City by directly solving the 
+            challenges of unclear waiting areas, unpredictable fare inconsistencies, and spotty 
+            internet connectivity. 
           </p>
         </section>
       </div>

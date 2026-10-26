@@ -63,19 +63,21 @@ export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
         onStatusChange={setStatus}
       />
 
-      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow-lg dark:bg-zinc-900">
+      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow-lg dark:bg-zinc-900 max-sm:left-3 max-sm:right-3 max-sm:mx-auto max-sm:w-fit max-sm:translate-x-0">
         <Link href="/?mode=terminal" className={tab(mode === "terminal")}>
-          Terminals
+          <span className="sm:hidden">Terminals</span>
+          <span className="hidden sm:inline">Terminal</span>
         </Link>
         <Link href="/?mode=routes" className={tab(mode === "routes")}>
-          Jeep Routes
+          <span className="sm:hidden">Routes</span>
+          <span className="hidden sm:inline">Jeepney Routes</span>
         </Link>
       </div>
 
       <button
         type="button"
         onClick={() => setLocateRequest((request) => request + 1)}
-        className="absolute right-3 top-3 z-[1000] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-800 shadow-lg transition hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+        className="absolute right-3 top-3 z-[1000] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-800 shadow-lg transition hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 max-sm:top-[3.75rem]"
       >
         My location
       </button>

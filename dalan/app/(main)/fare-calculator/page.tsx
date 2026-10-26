@@ -346,16 +346,13 @@ export default function FareCalculatorPage() {
           </div>
         )}
 
-        <p className="mt-6 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-          {fareDisclaimer}
-        </p>
+    
         <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
           OpenStreetMap street data via Nominatim and road distance via OSRM.
           Fares: {currencyFormatter.format(farePlan.baseFare)} for the first{" "}
           {farePlan.includedDistanceKm} km, then{" "}
           {currencyFormatter.format(farePlan.additionalFarePerStartedKm)} for
-          each additional started kilometer. Edit the fare rule in{" "}
-          <code>lib/data.ts</code>.
+          each additional started kilometer.
         </p>
       </section>
     </main>

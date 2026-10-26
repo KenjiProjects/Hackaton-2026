@@ -6,13 +6,15 @@ import { usePathname } from "next/navigation";
 const navigationItems = [
   {
     label: "Map",
+    fullLabel: "Map",
     href: "/",
     icon: (
       <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z M9 3v15 M15 6v15" />
     ),
   },
   {
-    label: "Fare Calculator",
+    label: "Fare",
+    fullLabel: "Fare Calculator",
     href: "/fare-calculator",
     icon: (
       <>
@@ -23,6 +25,7 @@ const navigationItems = [
   },
   {
     label: "Feedback",
+    fullLabel: "Feedback",
     href: "/feedback",
     icon: (
       <>
@@ -33,6 +36,7 @@ const navigationItems = [
   },
   {
     label: "Settings",
+    fullLabel: "Settings",
     href: "/settings",
     icon: (
      <>
@@ -51,16 +55,17 @@ export default function BottomNav() {
       aria-label="Main navigation"
       className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-1/2 z-[2000] w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 shadow-[0_8px_28px_rgba(0,0,0,0.14)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
     >
-      <ul className="mx-auto grid h-16 max-w-3xl grid-cols-4">
-        {navigationItems.map(({ label, href, icon }) => {
+      <ul className="mx-auto grid h-16 w-full max-w-3xl grid-cols-4">
+        {navigationItems.map(({ label, fullLabel, href, icon }) => {
           const isActive = pathname === href;
 
           return (
-            <li key={href}>
+            <li key={href} className="min-w-0">
               <Link
                 href={href}
+                aria-label={fullLabel ?? label}
                 aria-current={isActive ? "page" : undefined}
-                className={`flex h-full flex-col items-center justify-center gap-1 text-xs font-medium transition-colors ${
+                className={`flex h-full min-w-0 flex-col items-center justify-center gap-1 px-1 text-[10px] leading-none font-medium transition-colors sm:text-xs ${
                   isActive
                     ? "text-orange-700 dark:text-orange-300"
                     : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
@@ -78,7 +83,7 @@ export default function BottomNav() {
                 >
                   {icon}
                 </svg>
-                <span>{label}</span>
+                <span className="truncate">{label}</span>
               </Link>
             </li>
           );

@@ -61,12 +61,14 @@ export default function RoutePreview({
     if (!containerRef.current) return;
 
     const map = L.map(containerRef.current, {
-      center: [13.6192, 123.1814],
+      center: [13.62303, 123.18690],
       zoom: 14,
-      scrollWheelZoom: false,
+      minZoom: 15,
+      maxZoom: 18,
+      scrollWheelZoom: true,
       maxBounds: [
-        [13.53, 123.1],
-        [13.7, 123.28],
+         [13.65774, 123.16330],
+          [13.59936, 123.23412],
       ],
       maxBoundsViscosity: 1,
     });

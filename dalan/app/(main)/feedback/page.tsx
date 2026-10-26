@@ -158,7 +158,7 @@ export default function FeedbackPage() {
             When did it happen? (optional)
             <input
               type="datetime-local"
-              className={inputClassName}
+              className={`${inputClassName} accent-[#FA8C2F]`}
               value={incidentTime}
               onChange={(event) => setIncidentTime(event.target.value)}
             />

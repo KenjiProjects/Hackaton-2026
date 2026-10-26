@@ -10,10 +10,10 @@ import {
   type TransitStop,
 } from "@/lib/data";
 
-const NAGA_CENTER: L.LatLngTuple = [13.6192, 123.1814];
+const NAGA_CENTER: L.LatLngTuple = [13.62303, 123.18690];
 const NAGA_BOUNDS: L.LatLngBoundsExpression = [
-  [13.53, 123.1],
-  [13.7, 123.28],
+  [13.65774, 123.16330],
+  [13.59936, 123.23412],
 ];
 export type SelectedMapPlace = {
   label: string;
@@ -103,8 +103,8 @@ export default function MapView({
 
     const map = L.map(containerRef.current, {
       center: NAGA_CENTER,
-      zoom: 14,
-      minZoom: 12,
+      zoom: 18,
+      minZoom: 15,
       maxZoom: 18,
       maxBounds: NAGA_BOUNDS,
       maxBoundsViscosity: 1,
