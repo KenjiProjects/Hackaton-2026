@@ -7,24 +7,19 @@ import type {
   RoutePlace,
 } from "@/Components/RoutePreview";
 import {
-  fareCurrency,
   fareDisclaimer,
-  fareRules,
+  getActiveFarePlan,
   routingServiceUrl,
 } from "@/lib/data";
+import { useTransitData } from "@/lib/transit-store";
 
 const RoutePreview = dynamic(() => import("@/Components/RoutePreview"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[55vh] min-h-80 items-center justify-center rounded-2xl bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-800">
+    <div className="flex h-[min(34dvh,320px)] min-h-56 items-center justify-center rounded-2xl bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-800 sm:h-[min(50dvh,480px)] sm:min-h-80">
       Loading map...
     </div>
   ),
-});
-
-const currencyFormatter = new Intl.NumberFormat("en-PH", {
-  style: "currency",
-  currency: fareCurrency,
 });
 
 type ReverseGeocodeResponse = {
@@ -43,6 +38,12 @@ type RouteResponse = {
 };
 
 export default function FareCalculatorPage() {
+  const { transitData } = useTransitData();
+  const farePlan = getActiveFarePlan(transitData);
+  const currencyFormatter = new Intl.NumberFormat("en-PH", {
+    style: "currency",
+    currency: farePlan.currency,
+  });
   const [origin, setOrigin] = useState<RoutePlace | null>(null);
   const [destination, setDestination] = useState<RoutePlace | null>(null);
   const [pickTarget, setPickTarget] = useState<PickTarget | null>("origin");
@@ -58,6 +59,8 @@ export default function FareCalculatorPage() {
     distanceKm: number;
     farePerPassenger: number;
     totalFare: number;
+    maxTotalFare: number;
+    estimateRangeMultiplier: number;
     routeCoordinates: [number, number][];
   } | null>(null);
   const isResolvingRef = useRef(false);
@@ -169,16 +172,19 @@ export default function FareCalculatorPage() {
 
       const distanceKm = route.distance / 1000;
       const additionalKilometers = Math.ceil(
-        Math.max(0, distanceKm - fareRules.includedDistanceKm),
+        Math.max(0, distanceKm - farePlan.includedDistanceKm),
       );
       const farePerPassenger =
-        fareRules.baseFare +
-        additionalKilometers * fareRules.additionalFarePerStartedKm;
+        farePlan.baseFare +
+        additionalKilometers * farePlan.additionalFarePerStartedKm;
 
       setResult({
         distanceKm,
         farePerPassenger,
         totalFare: farePerPassenger * passengerCount,
+        maxTotalFare:
+          farePerPassenger * passengerCount * farePlan.estimateRangeMultiplier,
+        estimateRangeMultiplier: farePlan.estimateRangeMultiplier,
         routeCoordinates: route.geometry.coordinates,
       });
     } catch (calculationError) {
@@ -318,16 +324,21 @@ export default function FareCalculatorPage() {
             className="mt-6 rounded-2xl bg-teal-50 p-5 dark:bg-teal-950/40"
           >
             <p className="text-sm font-medium text-teal-900 dark:text-teal-100">
-              Estimated total
+              Estimated fare range
             </p>
             <p className="mt-1 text-3xl font-bold tracking-tight text-teal-900 dark:text-teal-100">
-              {currencyFormatter.format(result.totalFare)}
+              {currencyFormatter.format(result.totalFare)} –{" "}
+              {currencyFormatter.format(result.maxTotalFare)}
             </p>
             <p className="mt-2 text-sm leading-6 text-teal-800 dark:text-teal-200">
               {result.distanceKm.toFixed(2)} km by road ·{" "}
               {currencyFormatter.format(result.farePerPassenger)} per
               passenger · {passengerCount} passenger
               {passengerCount === 1 ? "" : "s"}
+            </p>
+            <p className="mt-2 text-xs leading-5 text-teal-800 dark:text-teal-200">
+              Range is from the calculated fare up to{" "}
+              {result.estimateRangeMultiplier}× that estimate.
             </p>
             <p className="mt-3 border-t border-teal-200 pt-3 text-xs leading-5 text-teal-900 dark:border-teal-800 dark:text-teal-100">
               {fareDisclaimer}
@@ -340,9 +351,9 @@ export default function FareCalculatorPage() {
         </p>
         <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
           OpenStreetMap street data via Nominatim and road distance via OSRM.
-          Fares: {currencyFormatter.format(fareRules.baseFare)} for the first{" "}
-          {fareRules.includedDistanceKm} km, then{" "}
-          {currencyFormatter.format(fareRules.additionalFarePerStartedKm)} for
+          Fares: {currencyFormatter.format(farePlan.baseFare)} for the first{" "}
+          {farePlan.includedDistanceKm} km, then{" "}
+          {currencyFormatter.format(farePlan.additionalFarePerStartedKm)} for
           each additional started kilometer. Edit the fare rule in{" "}
           <code>lib/data.ts</code>.
         </p>

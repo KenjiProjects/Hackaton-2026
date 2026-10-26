@@ -7,7 +7,7 @@ export default function MapPage({
   searchParams: Promise<{ mode?: string }>;
 }) {
   return (
-    <Suspense fallback={<div className="h-[calc(100dvh-4rem)] w-full" />}>
+    <Suspense fallback={<div className="fixed inset-0 h-dvh w-full" />}>
       <MapContent searchParams={searchParams} />
     </Suspense>
   );
@@ -21,7 +21,7 @@ async function MapContent({
   const { mode } = await searchParams;
 
   return (
-    <div className="h-[calc(100dvh-4rem)] w-full">
+    <div className="fixed inset-0 h-dvh w-full">
       <MapLoader mode={mode === "routes" ? "routes" : "terminal"} />
     </div>
   );

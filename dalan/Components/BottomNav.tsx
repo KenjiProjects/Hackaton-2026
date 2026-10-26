@@ -49,7 +49,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="Main navigation"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-200 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
+      className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-1/2 z-[2000] w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 shadow-[0_8px_28px_rgba(0,0,0,0.14)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
     >
       <ul className="mx-auto grid h-16 max-w-3xl grid-cols-4">
         {navigationItems.map(({ label, href, icon }) => {

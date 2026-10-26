@@ -196,7 +196,7 @@ export default function RoutePreview({
           ? `Interactive map. Tap a street to choose the ${pickTarget === "origin" ? "starting point" : "destination"}.`
           : "Map showing the selected locations and route"
       }
-      className={`h-[55vh] min-h-80 w-full rounded-2xl bg-zinc-100 dark:bg-zinc-800 ${
+      className={`h-[min(34dvh,320px)] min-h-56 w-full rounded-2xl bg-zinc-100 dark:bg-zinc-800 sm:h-[min(50dvh,480px)] sm:min-h-80 ${
         pickTarget ? "cursor-crosshair" : ""
       }`}
     />

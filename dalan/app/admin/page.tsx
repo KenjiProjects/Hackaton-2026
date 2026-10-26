@@ -1,7 +1,5 @@
-export default function admin() {
-  return (
-    <main >
-      
-    </main>
-  );
+import AdminDashboard from "@/Components/AdminDashboard";
+
+export default function AdminPage() {
+  return <AdminDashboard />;
 }

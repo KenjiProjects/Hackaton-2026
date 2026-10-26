@@ -1,6 +1,11 @@
 "use client";
+
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useState } from "react";
+import type { SelectedMapPlace } from "@/Components/MapView";
+import { stopTypeColors, stopTypeLabels } from "@/lib/data";
+import { useTransitData } from "@/lib/transit-store";
 
 const MapView = dynamic(() => import("@/Components/MapView"), {
   ssr: false,
@@ -12,49 +17,221 @@ const MapView = dynamic(() => import("@/Components/MapView"), {
 });
 
 export default function MapLoader({ mode }: { mode: "terminal" | "routes" }) {
+  const { transitData } = useTransitData();
+  const [selectedPlace, setSelectedPlace] = useState<SelectedMapPlace | null>(
+    null,
+  );
+  const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
+  const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
+  const [isInfoExpanded, setIsInfoExpanded] = useState(false);
+  const [status, setStatus] = useState("Tap any street or place to see its name.");
+  const [locateRequest, setLocateRequest] = useState(0);
+  const selectedRoute = transitData.routes.find(
+    (route) => route.id === selectedRouteId,
+  );
+  const selectedStop = transitData.stops.find(
+    (stop) => stop.id === selectedStopId,
+  );
+
+  function toggleRoute(routeId: string) {
+    setSelectedRouteId((current) => (current === routeId ? null : routeId));
+  }
+
+  function toggleStop(stopId: string) {
+    setSelectedStopId((current) => (current === stopId ? null : stopId));
+  }
+
   const tab = (active: boolean) =>
-    `rounded-full px-4 py-1.5 text-sm font-medium ${
-      active ? "bg-blue-600 text-white" : "bg-white text-gray-700"
+    `rounded-full px-4 py-2 text-sm font-medium transition ${
+      active
+        ? "bg-teal-700 text-white"
+        : "bg-white text-zinc-700 hover:bg-zinc-100"
     }`;
 
-  
   return (
     <div className="relative h-full w-full">
-      <MapView mode={mode} />
-      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow">
-        <Link href="/?mode=terminal" className={tab(mode === "terminal")}>Terminals</Link>
-        <Link href="/?mode=routes" className={tab(mode === "routes")}>Jeep Routes</Link>
+      <MapView
+        mode={mode}
+        routes={transitData.routes}
+        stops={transitData.stops}
+        selectedStopId={selectedStop?.id ?? null}
+        selectedRouteId={selectedRoute?.id ?? null}
+        locateRequest={locateRequest}
+        onRouteSelect={toggleRoute}
+        onStopSelect={toggleStop}
+        onPlaceSelect={setSelectedPlace}
+        onStatusChange={setStatus}
+      />
+
+      <div className="absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 gap-1 rounded-full bg-white p-1 shadow-lg">
+        <Link href="/?mode=terminal" className={tab(mode === "terminal")}>
+          Terminals
+        </Link>
+        <Link href="/?mode=routes" className={tab(mode === "routes")}>
+          Jeep Routes
+        </Link>
       </div>
 
-      {mode == "terminal" && (
-          <div className="absolute right-3 top-3 z-[1000] flex flex-col gap-2 rounded-lg bg-white p-3 shadow-md">
-            <span className="text-sm font-bold text-gray-800">LEGEND</span>
+      <button
+        type="button"
+        onClick={() => setLocateRequest((request) => request + 1)}
+        className="absolute right-3 top-3 z-[1000] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-800 shadow-lg transition hover:bg-zinc-100"
+      >
+        My location
+      </button>
 
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <span className="h-3 w-3 rounded-full bg-red-500"></span>
-              Jeepney Terminal
-            </div>
+      <aside
+        aria-live="polite"
+        className={`absolute bottom-[calc(5rem+env(safe-area-inset-bottom)+1rem)] left-3 right-3 z-[1000] mx-auto max-h-[45dvh] overflow-y-auto rounded-2xl bg-white/95 p-4 shadow-lg backdrop-blur ${
+          (mode === "routes" && selectedRoute) ||
+          (mode === "terminal" && selectedStop)
+            ? "max-w-2xl"
+            : "max-w-md"
+        }`}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+              {selectedStop
+                ? stopTypeLabels[selectedStop.type]
+                : selectedRoute
+                  ? "Selected route"
+                  : mode === "terminal"
+                    ? "Transport terminals"
+                    : "Jeep routes"}
+            </p>
+            <p className="truncate text-sm font-semibold text-zinc-800">
+              {selectedStop?.name ??
+                selectedRoute?.name ??
+                selectedPlace?.label ??
+                status}
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-expanded={isInfoExpanded}
+            onClick={() => setIsInfoExpanded((expanded) => !expanded)}
+            className="shrink-0 rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-200"
+          >
+            {isInfoExpanded ? "Show less" : "Show more"}
+          </button>
+        </div>
 
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <span className="h-3 w-3 rounded-full bg-blue-500"></span>
-              Tricycle Terminal
-            </div>
-
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <span className="h-3 w-3 rounded-full bg-green-500"></span>
-              Padyak Terminal
-            </div>
+        {isInfoExpanded && (
+          <div className="mt-3 border-t border-zinc-200 pt-3">
+            {selectedStop ? (
+              <>
+                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700">
+                  {selectedStop.details || "Terminal details will be added later."}
+                </p>
+                <p className="mt-2 text-xs text-zinc-500">
+                  {selectedStop.lat.toFixed(5)}, {selectedStop.lng.toFixed(5)}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {transitData.stops.map((stop) => (
+                    <button
+                      key={stop.id}
+                      type="button"
+                      aria-pressed={stop.id === selectedStop.id}
+                      onClick={() => toggleStop(stop.id)}
+                      className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                        stop.id === selectedStop.id
+                          ? "bg-zinc-100 text-zinc-900"
+                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100"
+                      }`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="size-2.5 rounded-full"
+                        style={{ backgroundColor: stopTypeColors[stop.type] }}
+                      />
+                      {stop.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : selectedRoute ? (
+              <>
+                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-700">
+                  {selectedRoute.details || "Route details will be added later."}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {transitData.routes.map((route) => (
+                    <button
+                      key={route.id}
+                      type="button"
+                      aria-pressed={route.id === selectedRoute.id}
+                      onClick={() => toggleRoute(route.id)}
+                      className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                        route.id === selectedRoute.id
+                          ? "bg-zinc-100 text-zinc-900"
+                          : "text-zinc-500 opacity-60 hover:bg-zinc-100 hover:opacity-100"
+                      }`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="h-1 w-5 rounded-full"
+                        style={{ backgroundColor: route.color }}
+                      />
+                      {route.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                {selectedPlace && (
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-xs text-zinc-500">
+                      {selectedPlace.latitude.toFixed(5)},{" "}
+                      {selectedPlace.longitude.toFixed(5)}
+                    </span>
+                    <Link
+                      href="/fare-calculator"
+                      className="shrink-0 rounded-lg bg-teal-700 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-800"
+                    >
+                      Calculate fare
+                    </Link>
+                  </div>
+                )}
+                {mode === "terminal" &&
+                  transitData.stops.length > 0 &&
+                  transitData.stops.map((stop) => (
+                    <button
+                      key={stop.id}
+                      type="button"
+                      onClick={() => toggleStop(stop.id)}
+                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="size-2.5 rounded-full"
+                        style={{ backgroundColor: stopTypeColors[stop.type] }}
+                      />
+                      {stop.name}
+                    </button>
+                  ))}
+                {mode === "routes" &&
+                  transitData.routes.map((route) => (
+                    <button
+                      key={route.id}
+                      type="button"
+                      onClick={() => toggleRoute(route.id)}
+                      className="mr-2 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="h-1 w-5 rounded-full"
+                        style={{ backgroundColor: route.color }}
+                      />
+                      {route.name}
+                    </button>
+                  ))}
+              </>
+            )}
           </div>
         )}
-
-
-        {mode == "routes" && (
-          <div className="absolute right-3 top-3 z-[1000] flex flex-col gap-2 rounded-lg bg-white p-3 shadow-md">
-            <span className="text-sm font-bold text-gray-800">LEGEND</span>
-
-           
-          </div>
-        )}
+      </aside>
     </div>
   );
 }
