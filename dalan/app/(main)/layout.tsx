@@ -7,7 +7,9 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <div className="flex flex-1 flex-col pb-16">{children}</div>
+      <div className="flex flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom)+1rem)]">
+        {children}
+      </div>
       <BottomNav />
     </>
   );
